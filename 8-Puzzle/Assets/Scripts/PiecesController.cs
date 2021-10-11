@@ -24,25 +24,57 @@ public class PiecesController : MonoBehaviour
     void Update()
     {
         if (Input.anyKeyDown) {
-            Debug.Log(new string(environment.gameState));
             int i = environment.getEmptyPieceLocation();
-            if (Input.GetKeyDown(KeyCode.S) && environment.canMoveUp(i)) {
-                environment.moveUp(i);
-                puzzlePieces[i-3-1].transform.Translate(Vector3.back * 10);
-                swap(i, i-3);
-            } else if (Input.GetKeyDown(KeyCode.D) && environment.canMoveLeft(i)) {
-                environment.moveLeft(i);
-                puzzlePieces[i-1-1].transform.Translate(Vector3.right * 10);
-                swap(i, i-1);
-            } else if (Input.GetKeyDown(KeyCode.W) && environment.canMoveDown(i)) {
-                environment.moveDown(i);
-                puzzlePieces[i+3-1].transform.Translate(Vector3.forward * 10);
-                swap(i, i+3);
-            } else if (Input.GetKeyDown(KeyCode.A) && environment.canMoveRight(i)) {
-                environment.moveRight(i);
-                puzzlePieces[i+1-1].transform.Translate(Vector3.left * 10);
-                swap(i, i+1);
-            }
+            if (Input.GetKeyDown(KeyCode.S)) moveUp(i);
+            else if (Input.GetKeyDown(KeyCode.W)) moveDown(i);
+            else if (Input.GetKeyDown(KeyCode.A)) moveRight(i);
+            else if (Input.GetKeyDown(KeyCode.D)) moveLeft(i);
+            else if (Input.GetKeyDown(KeyCode.R)) scrambleState(10);
+        }
+    }
+
+    public void moveUp(int i) {
+        if (environment.canMoveUp(i)) {
+            environment.moveUp(i);
+            puzzlePieces[i-3-1].transform.Translate(Vector3.back * 10);
+            swap(i, i-3);
+        }
+    }
+
+    public void moveDown(int i) {
+        if (environment.canMoveDown(i)) {
+            environment.moveDown(i);
+            puzzlePieces[i+3-1].transform.Translate(Vector3.forward * 10);
+            swap(i, i+3);
+        }
+    }
+
+    public void moveLeft(int i) {
+        if (environment.canMoveLeft(i)) {
+            environment.moveLeft(i);
+            puzzlePieces[i-1-1].transform.Translate(Vector3.right * 10);
+            swap(i, i-1);
+        }
+    }
+
+    public void moveRight(int i) {
+        if (environment.canMoveRight(i)) {
+            environment.moveRight(i);
+            puzzlePieces[i+1-1].transform.Translate(Vector3.left * 10);
+            swap(i, i+1);
+        }
+    }
+
+    public void scrambleState(int limit = 50) {
+        System.Random random = new System.Random();
+        int i;
+        while(limit-- > 0) {
+            i = environment.getEmptyPieceLocation();
+            int x = random.Next(4);
+            if (x == 0) moveUp(i);
+            else if (x == 1) moveDown(i);
+            else if (x == 2) moveLeft(i);
+            else moveRight(i);
         }
     }
 

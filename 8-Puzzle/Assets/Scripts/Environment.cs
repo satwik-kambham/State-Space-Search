@@ -8,9 +8,11 @@ namespace EightPuzzle
     public class Environment
     {
         public char[] gameState { get; private set; }
+        private char[] goalState;
 
         public Environment(string initialState = "123456780") {
             gameState = initialState.ToCharArray();
+            goalState = "123456780".ToCharArray();
         }
 
         public bool canMoveLeft (int i) => i % 3 != 1;
@@ -34,6 +36,13 @@ namespace EightPuzzle
             char x = gameState[i-1];
             gameState[i-1] = gameState[j-1];
             gameState[j-1] = x;
+        }
+
+        public bool isGoalState() {
+            for (int i = 0; i < gameState.Length; i++) {
+                if (gameState[i] != goalState[i]) return false;
+            }
+            return true;
         }
     }
 }

@@ -21,10 +21,12 @@ namespace Algorithms
             toExplore.Enqueue(startNode);
         }
 
-        public Node search() {
+        public Node search(out int nodesSearched) {
+            nodesSearched = 0;
             while(true) {
                 if (toExplore.Count == 0) return null;
                 Node currentNode = toExplore.Dequeue();
+                nodesSearched++;
                 if (environment.isGoalState(currentNode.data.ToCharArray()))
                     return currentNode;
                 exploredNodes.Add(currentNode.data);

@@ -12,6 +12,10 @@ public class PiecesController : MonoBehaviour
     private Stack<char> moves;
     public float moveDelay = 0.001f;
     public float delayBetweenMoves = 1f;
+    public bool solved = false;
+    public bool stop = false;
+    public int moveCount;
+    public int nodesSearched;
 
     void Start()
     {
@@ -36,9 +40,11 @@ public class PiecesController : MonoBehaviour
         }
     }
 
+    public void stopSolving() => stop = true;
+
     public void solveUsingBFS() {
         BFS bfs = new BFS(environment);
-        Node node = bfs.search();
+        Node node = bfs.search(out nodesSearched);
         moves = new Stack<char>();
         while (node != null) {
             moves.Push(node.move);
@@ -50,19 +56,19 @@ public class PiecesController : MonoBehaviour
 
     public void solveUsingDFS() {
         DFS dfs = new DFS(environment);
-        Node node = dfs.search();
+        Node node = dfs.search(out nodesSearched);
         moves = new Stack<char>();
         while (node != null) {
             moves.Push(node.move);
             node = node.parent;
         }
-        Debug.Log("Performing Moves");
         StartCoroutine(performMoves());
     }
 
     IEnumerator performMoves() {
-        Debug.Log($"Solution found with {moves.Count} moves");
-        while (moves.Count != 0) {
+        moveCount = moves.Count;
+        solved = true;
+        while (moves.Count != 0 && !stop) {
             int i = environment.getEmptyPieceLocation(environment.gameState);
             char move = moves.Pop();
             if (move == 'U') moveUp(i);
@@ -71,7 +77,8 @@ public class PiecesController : MonoBehaviour
             else if (move == 'R') moveRight(i);
             yield return new WaitForSeconds(delayBetweenMoves);
         }
-        Debug.Log("Solved!!");
+        solved = false;
+        stop = false;
         yield return null;
     }
 

@@ -10,6 +10,8 @@ public class PiecesController : MonoBehaviour
     private GameObject[] puzzlePieces;
     public Environment environment;
     private Stack<char> moves;
+    public float moveDelay = 0.001f;
+    public float delayBetweenMoves = 1f;
 
     void Start()
     {
@@ -31,8 +33,6 @@ public class PiecesController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.W)) moveDown(i);
             else if (Input.GetKeyDown(KeyCode.A)) moveRight(i);
             else if (Input.GetKeyDown(KeyCode.D)) moveLeft(i);
-            else if (Input.GetKeyDown(KeyCode.R)) scrambleState(10);
-            else if (Input.GetKeyDown(KeyCode.B)) solveUsingBFS();
         }
     }
 
@@ -48,7 +48,20 @@ public class PiecesController : MonoBehaviour
         StartCoroutine(performMoves());
     }
 
+    public void solveUsingDFS() {
+        DFS dfs = new DFS(environment);
+        Node node = dfs.search();
+        moves = new Stack<char>();
+        while (node != null) {
+            moves.Push(node.move);
+            node = node.parent;
+        }
+        Debug.Log("Performing Moves");
+        StartCoroutine(performMoves());
+    }
+
     IEnumerator performMoves() {
+        Debug.Log($"Solution found with {moves.Count} moves");
         while (moves.Count != 0) {
             int i = environment.getEmptyPieceLocation(environment.gameState);
             char move = moves.Pop();
@@ -56,7 +69,7 @@ public class PiecesController : MonoBehaviour
             else if (move == 'D') moveDown(i);
             else if (move == 'L') moveLeft(i);
             else if (move == 'R') moveRight(i);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(delayBetweenMoves);
         }
         Debug.Log("Solved!!");
         yield return null;
@@ -66,7 +79,7 @@ public class PiecesController : MonoBehaviour
         GameObject gameObject = puzzlePieces[i];
         for (int j = 0; j < 50; j++) {
             gameObject.transform.Translate(v/50);
-            yield return new WaitForSeconds(0.001f);
+            yield return new WaitForSeconds(moveDelay);
         }
     }
 

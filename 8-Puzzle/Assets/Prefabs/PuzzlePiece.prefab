@@ -196,14 +196,14 @@ TextMesh:
   m_GameObject: {fileID: 2629021378120700692}
   m_Text: 8
   m_OffsetZ: 0
-  m_CharacterSize: 1
+  m_CharacterSize: 0.1
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 30
+  m_FontSize: 500
   m_FontStyle: 0
-  m_RichText: 0
+  m_RichText: 1
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2

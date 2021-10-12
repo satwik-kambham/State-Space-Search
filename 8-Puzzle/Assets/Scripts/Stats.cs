@@ -7,12 +7,11 @@ public class Stats : MonoBehaviour
     public GameObject piecesController;
     public GameObject numberOfMoves;
     public GameObject nodesSearched;
+    public GameObject duplicatesEncountered;
     private PiecesController piecesControllerScript;
 
     void Start()
     {
-        numberOfMoves.GetComponent<UnityEngine.UI.Text>().text = "";
-        nodesSearched.GetComponent<UnityEngine.UI.Text>().text = "";
         piecesControllerScript = piecesController.GetComponent<PiecesController>();
     }
 
@@ -23,6 +22,8 @@ public class Stats : MonoBehaviour
                 = $"Path found with {piecesControllerScript.moveCount} moves";
             nodesSearched.GetComponent<UnityEngine.UI.Text>().text
                 = $"{piecesControllerScript.nodesSearched} nodes searched";
+            duplicatesEncountered.GetComponent<UnityEngine.UI.Text>().text
+                = $"{piecesControllerScript.duplicatesEncountered} duplicates Encountered";
         }
     }
 }

@@ -16,6 +16,7 @@ public class PiecesController : MonoBehaviour
     public bool stop = false;
     public int moveCount;
     public int nodesSearched;
+    public int duplicatesEncountered;
 
     void Start()
     {
@@ -44,7 +45,7 @@ public class PiecesController : MonoBehaviour
 
     public void solveUsingBFS() {
         BFS bfs = new BFS(environment);
-        Node node = bfs.search(out nodesSearched);
+        Node node = bfs.search(out nodesSearched, out duplicatesEncountered);
         moves = new Stack<char>();
         while (node != null) {
             moves.Push(node.move);
@@ -56,7 +57,7 @@ public class PiecesController : MonoBehaviour
 
     public void solveUsingDFS() {
         DFS dfs = new DFS(environment);
-        Node node = dfs.search(out nodesSearched);
+        Node node = dfs.search(out nodesSearched, out duplicatesEncountered);
         moves = new Stack<char>();
         while (node != null) {
             moves.Push(node.move);

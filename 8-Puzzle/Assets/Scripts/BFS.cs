@@ -21,8 +21,9 @@ namespace Algorithms
             toExplore.Enqueue(startNode);
         }
 
-        public Node search(out int nodesSearched) {
+        public Node search(out int nodesSearched, out int duplicatesEncountered) {
             nodesSearched = 0;
+            duplicatesEncountered = 0;
             while(true) {
                 if (toExplore.Count == 0) return null;
                 Node currentNode = toExplore.Dequeue();
@@ -38,7 +39,7 @@ namespace Algorithms
                                 move = action[i],
                                 parent = currentNode
                             });
-                    }
+                    } else duplicatesEncountered++;
                 }
             }
         }

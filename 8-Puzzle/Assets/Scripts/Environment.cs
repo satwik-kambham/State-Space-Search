@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 namespace EightPuzzle
 {
@@ -20,29 +18,53 @@ namespace EightPuzzle
         public bool canMoveUp (int i) => i > 3;
         public bool canMoveDown (int i) => i < 7;
 
-        public void moveLeft(int i) => swap(i, i-1);
-        public void moveRight(int i) => swap(i, i+1);
-        public void moveUp(int i) => swap(i, i-3);
-        public void moveDown(int i) => swap(i, i+3);
+        public void moveLeft(int i) => swap(i, i-1, gameState);
+        public void moveRight(int i) => swap(i, i+1, gameState);
+        public void moveUp(int i) => swap(i, i-3, gameState);
+        public void moveDown(int i) => swap(i, i+3, gameState);
 
-        public int getEmptyPieceLocation() {
-            for (int i = 0; i < gameState.Length; i++) {
-                if (gameState[i] == '0') return i+1;
+        public int getEmptyPieceLocation(char[] state) {
+            for (int i = 0; i < state.Length; i++) {
+                if (state[i] == '0') return i+1;
             }
             return 0;
         }
 
-        public void swap(int i, int j) {
-            char x = gameState[i-1];
-            gameState[i-1] = gameState[j-1];
-            gameState[j-1] = x;
+        public string swap(int i, int j, char[] state) {
+            char x = state[i-1];
+            state[i-1] = state[j-1];
+            state[j-1] = x;
+            return new string(state);
         }
 
-        public bool isGoalState() {
-            for (int i = 0; i < gameState.Length; i++) {
-                if (gameState[i] != goalState[i]) return false;
+        public bool isGoalState(char[] state) {
+            for (int i = 0; i < state.Length; i++) {
+                if (state[i] != goalState[i]) return false;
             }
             return true;
+        }
+
+        public List<string> getPossibleMoves(string state, out List<char> action) {
+            int i = getEmptyPieceLocation(state.ToCharArray());
+            List<string> possibleMoves = new List<string>();
+            action = new List<char>();
+            if (canMoveUp(i)) {
+                possibleMoves.Add(swap(i, i-3, state.ToCharArray()));
+                action.Add('U');
+            }
+            if (canMoveDown(i)) {
+                possibleMoves.Add(swap(i, i+3, state.ToCharArray()));
+                action.Add('D');
+            }
+            if (canMoveLeft(i)) {
+                possibleMoves.Add(swap(i, i-1, state.ToCharArray()));
+                action.Add('L');
+            }
+            if (canMoveRight(i)) {
+                possibleMoves.Add(swap(i, i+1, state.ToCharArray()));
+                action.Add('R');
+            }
+            return possibleMoves;
         }
     }
 }

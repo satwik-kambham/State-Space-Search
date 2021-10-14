@@ -2485,6 +2485,10 @@ MonoBehaviour:
     m_Options:
     - m_Text: Misplaced Tiles
       m_Image: {fileID: 0}
+    - m_Text: Eucledian distance
+      m_Image: {fileID: 0}
+    - m_Text: Manhattan distance
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:

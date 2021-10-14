@@ -51,6 +51,8 @@ namespace Algorithms
 
         public float heuristicFunction(string state) {
             if (heuristic == 0) return (float) environment.misplacedTiles(state);
+            if (heuristic == 1) return environment.eucledianDistance(state);
+            if (heuristic == 3) return (float) environment.manhattanDistance(state);
             return (float) environment.misplacedTiles(state);
         }
     }

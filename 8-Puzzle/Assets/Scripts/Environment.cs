@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -77,6 +78,26 @@ namespace EightPuzzle
             return numberOfMisplacedTiles;
         }
 
-        
+        public float eucledianDistance(string state) {
+            float distance = 0;
+            for (int i = 0; i < state.Length; i++) {
+                int x = (int) state[i] - 48;
+                if (x != 0)
+                    distance += (float) Math.Sqrt((x/3 - i/3) * (x/3 - i/3)
+                        + (x/3 - i/3) * (x%3 - i%3));
+            }
+            return distance;
+        }
+
+        public int manhattanDistance(string state) {
+            int distance = 0;
+            for (int i = 0; i < state.Length; i++) {
+                int x = (int) state[i] - 48;
+                if (x != 0)
+                    distance += Math.Abs(x/3 - i/3) + Math.Abs(x%3 - i%3);
+            }
+            return distance;
+        }
+
     }
 }

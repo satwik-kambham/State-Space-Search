@@ -15,6 +15,7 @@ public class Stats : MonoBehaviour
         piecesControllerScript = piecesController.GetComponent<PiecesController>();
     }
 
+    // TODO Change speed on the go
     void Update()
     {
         if (piecesControllerScript.solved) {

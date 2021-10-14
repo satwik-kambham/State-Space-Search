@@ -43,6 +43,9 @@ public class PiecesController : MonoBehaviour
         }
     }
 
+    public void setMoveDelay(float x) => moveDelay = x;
+    public void setDelayBetweenMoves(float x) => delayBetweenMoves = x;
+
     public void stopSolving() => stop = true;
 
     public void getMoves(Node node) {

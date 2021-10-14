@@ -66,5 +66,17 @@ namespace EightPuzzle
             }
             return possibleMoves;
         }
+
+        // Heuristics
+
+        public int misplacedTiles(string state) {
+            int numberOfMisplacedTiles = 0;
+            for (int i = 0; i < state.Length; i++) {
+                if (state[i] == goalState[i]) numberOfMisplacedTiles++;
+            }
+            return numberOfMisplacedTiles;
+        }
+
+        
     }
 }

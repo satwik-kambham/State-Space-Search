@@ -17,6 +17,7 @@ public class PiecesController : MonoBehaviour
     public int moveCount;
     public int nodesSearched;
     public int duplicatesEncountered;
+    private int heuristic;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class PiecesController : MonoBehaviour
                 = environment.gameState[i].ToString();
             puzzlePieces[i] = Instantiate(puzzlePiecePrefab, new Vector3(i%3-1, 0, 1-i/3) * 10, Quaternion.identity, transform);
         }
+        heuristic = 0;
     }
 
     void Update()
@@ -43,27 +45,33 @@ public class PiecesController : MonoBehaviour
 
     public void stopSolving() => stop = true;
 
-    public void solveUsingBFS() {
-        BFS bfs = new BFS(environment);
-        Node node = bfs.search(out nodesSearched, out duplicatesEncountered);
+    public void getMoves(Node node) {
         moves = new Stack<char>();
         while (node != null) {
             moves.Push(node.move);
             node = node.parent;
         }
-        Debug.Log("Performing Moves");
         StartCoroutine(performMoves());
+    }
+
+    public void solveUsingBFS() {
+        BFS bfs = new BFS(environment);
+        Node node = bfs.search(out nodesSearched, out duplicatesEncountered);
+        getMoves(node);
     }
 
     public void solveUsingDFS() {
         DFS dfs = new DFS(environment);
         Node node = dfs.search(out nodesSearched, out duplicatesEncountered);
-        moves = new Stack<char>();
-        while (node != null) {
-            moves.Push(node.move);
-            node = node.parent;
-        }
-        StartCoroutine(performMoves());
+        getMoves(node);
+    }
+
+    public void changeHeuristic(int i) => heuristic = i;
+
+    public void solveUsingGreedy() {
+        Greedy greedy = new Greedy(environment, heuristic);
+        Node node = greedy.search(out nodesSearched, out duplicatesEncountered);
+        getMoves(node);
     }
 
     IEnumerator performMoves() {

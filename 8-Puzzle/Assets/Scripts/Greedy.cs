@@ -19,7 +19,7 @@ namespace Algorithms
                 data = new string(environment.gameState),
                 move = ' ',
                 parent = null,
-                score = environment.misplacedTiles(new string(environment.gameState))
+                score = heuristicFunction(new string(environment.gameState))
             };
             toExplore.insert(startNode);
             this.heuristic = heuristic;

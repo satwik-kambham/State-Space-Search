@@ -8,6 +8,7 @@ namespace Algorithms
         public char move { get; set; }
         public Node parent { get; set; }
         public float score { get; set; }
+        public int depth { get; set; }
 
         public int CompareTo(object obj) {
             if (obj == null) return 1;

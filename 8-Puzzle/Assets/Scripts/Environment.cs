@@ -7,11 +7,11 @@ namespace EightPuzzle
     public class Environment
     {
         public char[] gameState { get; private set; }
-        private char[] goalState;
+        public string goalState;
 
         public Environment(string initialState = "123456780") {
             gameState = initialState.ToCharArray();
-            goalState = "123456780".ToCharArray();
+            goalState = "123456780";
         }
 
         public bool canMoveLeft (int i) => i % 3 != 1;
@@ -70,33 +70,40 @@ namespace EightPuzzle
 
         // Heuristics
 
-        public int misplacedTiles(string state) {
+        public int misplacedTiles(string state, string goalState) {
             int numberOfMisplacedTiles = 0;
             for (int i = 0; i < state.Length; i++) {
-                if (state[i] == goalState[i]) numberOfMisplacedTiles++;
+                if (state[i] != goalState[i] && state[i] != '0') numberOfMisplacedTiles++;
             }
-            return numberOfMisplacedTiles;
+            return -numberOfMisplacedTiles;
         }
 
-        public float eucledianDistance(string state) {
+        public float eucledianDistance(string state, string goalState) {
             float distance = 0;
             for (int i = 0; i < state.Length; i++) {
-                int x = (int) state[i] - 48;
-                if (x != 0)
-                    distance += (float) Math.Sqrt((x/3 - i/3) * (x/3 - i/3)
-                        + (x/3 - i/3) * (x%3 - i%3));
+                for (int j = 0; j < goalState.Length; j++) {
+                    int x = (int) state[i] - 48;
+                    int y = (int) goalState[j] - 48;
+                    if (x != 0 && x == y) {
+                        distance += (float) Math.Sqrt((i/3 - j/3) * (i/3 - j/3)
+                            + (i%3 - j%3) * (i%3 - j%3));
+                    }
+                }
             }
-            return distance;
+            return -distance;
         }
 
-        public int manhattanDistance(string state) {
+        public int manhattanDistance(string state, string goalState) {
             int distance = 0;
             for (int i = 0; i < state.Length; i++) {
-                int x = (int) state[i] - 48;
-                if (x != 0)
-                    distance += Math.Abs(x/3 - i/3) + Math.Abs(x%3 - i%3);
+                for (int j = 0; j < goalState.Length; j++) {
+                    int x = (int) state[i] - 48;
+                    int y = (int) goalState[j] - 48;
+                    if (x != 0 && x == y)
+                        distance += Math.Abs(i/3 - j/3) + Math.Abs(i%3 - j%3);
+                }
             }
-            return distance;
+            return -distance;
         }
 
     }

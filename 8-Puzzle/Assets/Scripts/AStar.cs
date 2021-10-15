@@ -4,25 +4,31 @@ using UnityEngine;
 
 namespace Algorithms
 {
-    public class Greedy
+    public class AStar
     {
         private HashSet<string> exploredNodes;
         private MaxPQ toExplore;
         private Environment environment;
-        private int heuristic;
+        private int heuristic1;
+        private int heuristic2;
+        private string initialState;
 
-        public Greedy(Environment environment, int heuristic) {
+        public AStar(Environment environment, int heuristic1, int heuristic2) {
             this.environment = environment;
+            this.heuristic1 = heuristic1;
+            this.heuristic2 = heuristic2;
+            initialState = new string(environment.gameState);
             exploredNodes = new HashSet<string>();
             toExplore = new MaxPQ();
             Node startNode = new Node() {
                 data = new string(environment.gameState),
                 move = ' ',
                 parent = null,
-                score = heuristicFunction(new string(environment.gameState))
+                score = heuristicFunction(initialState, initialState, heuristic1)
+                    + heuristicFunction(initialState, environment.goalState, heuristic2),
+                depth = 0
             };
             toExplore.insert(startNode);
-            this.heuristic = heuristic;
         }
 
         public Node search(out int nodesSearched, out int duplicatesEncountered) {
@@ -42,18 +48,20 @@ namespace Algorithms
                                 data = possibleMoves[i],
                                 move = action[i],
                                 parent = currentNode,
-                                score = heuristicFunction(possibleMoves[i])
+                                score = (heuristic1 == 3 ? -currentNode.depth : heuristicFunction(initialState, possibleMoves[i], heuristic1))
+                                    + heuristicFunction(possibleMoves[i], environment.goalState, heuristic2),
+                                depth = currentNode.depth + 1
                             });
                     } else duplicatesEncountered++;
                 }
             }
         }
 
-        public float heuristicFunction(string state) {
-            if (heuristic == 0) return (float) environment.misplacedTiles(state, environment.goalState);
-            if (heuristic == 1) return environment.eucledianDistance(state, environment.goalState);
-            if (heuristic == 2) return (float) environment.manhattanDistance(state, environment.goalState);
-            return (float) environment.misplacedTiles(state, environment.goalState);
+        public float heuristicFunction(string state, string goalState, int heuristic) {
+            if (heuristic == 0) return (float) environment.misplacedTiles(state, goalState);
+            if (heuristic == 1) return environment.eucledianDistance(state, goalState);
+            if (heuristic == 2) return (float) environment.manhattanDistance(state, goalState);
+            return (float) environment.misplacedTiles(state, goalState);
         }
     }
 }

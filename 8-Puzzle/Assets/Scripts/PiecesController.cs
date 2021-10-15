@@ -18,6 +18,8 @@ public class PiecesController : MonoBehaviour
     public int nodesSearched;
     public int duplicatesEncountered;
     private int heuristic;
+    private int heuristic1;
+    private int heuristic2;
 
     void Start()
     {
@@ -29,7 +31,6 @@ public class PiecesController : MonoBehaviour
                 = environment.gameState[i].ToString();
             puzzlePieces[i] = Instantiate(puzzlePiecePrefab, new Vector3(i%3-1, 0, 1-i/3) * 10, Quaternion.identity, transform);
         }
-        heuristic = 0;
     }
 
     void Update()
@@ -70,10 +71,18 @@ public class PiecesController : MonoBehaviour
     }
 
     public void changeHeuristic(int i) => heuristic = i;
+    public void changeHeuristic1(int i) => heuristic1 = i;
+    public void changeHeuristic2(int i) => heuristic2 = i;
 
     public void solveUsingGreedy() {
         Greedy greedy = new Greedy(environment, heuristic);
         Node node = greedy.search(out nodesSearched, out duplicatesEncountered);
+        getMoves(node);
+    }
+
+    public void solveUsingAStar() {
+        AStar astar = new AStar(environment, heuristic1, heuristic2);
+        Node node = astar.search(out nodesSearched, out duplicatesEncountered);
         getMoves(node);
     }
 

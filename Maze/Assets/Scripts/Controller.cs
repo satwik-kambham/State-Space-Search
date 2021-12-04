@@ -7,20 +7,18 @@ public class Controller : MonoBehaviour
 {
     public Maze maze; // Maze containing cells
     public GameObject wall; // Prefab of wall
-    public int n;
-    public int m;
-    private float cellWidth;
-    private float cellHeight;
+    public int n; // Number of rows
+    public int m; // Number of columns
+    private float cellWidth = 100f / n;
+    private float cellHeight = 100f / m;
 
     void Start()
     {
-        maze = new Maze(n, m);
-        cellWidth = 100f / n;
-        cellHeight = 100f / m;
+        maze = new Maze(n, m); // Initializing maze object which store all the cells
         Vector3 location;
         Quaternion rotation;
 
-        // Instantiating walls between cells
+        // Creating walls between cells
         for (int k = 0; k < 4; k++)
         {
             if (k % 2 == 0)
@@ -60,12 +58,11 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (Input.anyKeyDown)
-            if (Input.GetKeyDown(KeyCode.S)) StartGeneration();
+            if (Input.GetKeyDown(KeyCode.D)) solveUsingRandomizedDFS();
     }
 
-    void StartGeneration()
+    void solveUsingRandomizedDFS()
     {
-        // setNeighbor(3, maze.cells[3, 3]);
         RDFS rdfs = new RDFS(this);
         rdfs.generateMaze();
     }
@@ -91,6 +88,7 @@ public class Controller : MonoBehaviour
         c2.walls[direction] = null;
     }
 
+    // Get possible neighbors of given cell
     public Cell[] getNeighbors(Cell c)
     {
         Cell[] neighbors = new Cell[4];

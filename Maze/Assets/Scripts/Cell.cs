@@ -4,7 +4,7 @@ namespace Generation
 {
     public class Cell
     {
-        public int i, j; // Index in cells array
+        public int i, j; // Index in cells array of maze object
         public Cell[] neighbors; // Neighboring cells
         public GameObject[] walls;
         public bool visited;

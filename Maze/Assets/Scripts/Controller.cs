@@ -28,9 +28,9 @@ public class Controller : MonoBehaviour
                 wall.transform.localScale =
                     new Vector3(cellWidth, wall.transform.localScale.y, 1);
                 if (k == 2)
-                    location = new Vector3(0, 0, cellHeight / 2);
-                else
                     location = new Vector3(0, 0, -cellHeight / 2);
+                else
+                    location = new Vector3(0, 0, +cellHeight / 2);
                 rotation = new Quaternion(90, 0, 0, 0);
             }
             else
@@ -38,9 +38,9 @@ public class Controller : MonoBehaviour
                 wall.transform.localScale =
                     new Vector3(1, wall.transform.localScale.y, cellHeight);
                 if (k == 1)
-                    location = new Vector3(cellWidth / 2, 0, 0);
-                else
                     location = new Vector3(-cellWidth / 2, 0, 0);
+                else
+                    location = new Vector3(+cellWidth / 2, 0, 0);
 
                 rotation = new Quaternion(0, 0, 90, 0);
             }
@@ -65,23 +65,35 @@ public class Controller : MonoBehaviour
 
     void StartGeneration()
     {
-        setNeighbor(2, maze.cells[2, 2], maze.cells[2, 3]);
+        setNeighbor(3, maze.cells[2, 2]);
     }
 
     // Sets reference to neighbor and destroy walls in between
-    public void setNeighbor(int i, Cell c1, Cell c2)
+    // top - 0, left - 1, down - 2, right - 3
+    public void setNeighbor(int direction, Cell c1)
     {
-        c1.neighbors[i] = c2;
-        Destroy(c1.walls[i]);
-        c1.walls[i] = null;
-
-        if (i > 1)
-            i -= 2;
+        Cell c2;
+        if (direction == 0)
+            c2 = maze.cells[c1.i, c1.j + 1];
+        else if (direction == 1)
+            c2 = maze.cells[c1.i - 1, c1.j];
+        else if (direction == 2)
+            c2 = maze.cells[c1.i, c1.j - 1];
         else
-            i += 2;
+            c2 = maze.cells[c1.i + 1, c1.j];
 
-        c2.neighbors[i] = c1;
-        Destroy(c2.walls[i]);
-        c2.walls[i] = null;
+
+        c1.neighbors[direction] = c2;
+        Destroy(c1.walls[direction]);
+        c1.walls[direction] = null;
+
+        if (direction > 1)
+            direction -= 2;
+        else
+            direction += 2;
+
+        c2.neighbors[direction] = c1;
+        Destroy(c2.walls[direction]);
+        c2.walls[direction] = null;
     }
 }

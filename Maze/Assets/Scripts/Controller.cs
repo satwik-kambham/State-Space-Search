@@ -65,23 +65,17 @@ public class Controller : MonoBehaviour
 
     void StartGeneration()
     {
-        setNeighbor(3, maze.cells[2, 2]);
+        // setNeighbor(3, maze.cells[3, 3]);
+        RDFS rdfs = new RDFS(this);
+        rdfs.generateMaze();
     }
 
     // Sets reference to neighbor and destroy walls in between
     // top - 0, left - 1, down - 2, right - 3
     public void setNeighbor(int direction, Cell c1)
     {
-        Cell c2;
-        if (direction == 0)
-            c2 = maze.cells[c1.i, c1.j + 1];
-        else if (direction == 1)
-            c2 = maze.cells[c1.i - 1, c1.j];
-        else if (direction == 2)
-            c2 = maze.cells[c1.i, c1.j - 1];
-        else
-            c2 = maze.cells[c1.i + 1, c1.j];
-
+        Cell[] neighbors = getNeighbors(c1);
+        Cell c2 = neighbors[direction];
 
         c1.neighbors[direction] = c2;
         Destroy(c1.walls[direction]);
@@ -95,5 +89,15 @@ public class Controller : MonoBehaviour
         c2.neighbors[direction] = c1;
         Destroy(c2.walls[direction]);
         c2.walls[direction] = null;
+    }
+
+    public Cell[] getNeighbors(Cell c)
+    {
+        Cell[] neighbors = new Cell[4];
+        if (c.j + 1 < n) neighbors[0] = maze.cells[c.i, c.j + 1];
+        if (c.i - 1 >= 0) neighbors[1] = maze.cells[c.i - 1, c.j];
+        if (c.j - 1 >= 0) neighbors[2] = maze.cells[c.i, c.j - 1];
+        if (c.i + 1 < m) neighbors[3] = maze.cells[c.i + 1, c.j];
+        return neighbors;
     }
 }

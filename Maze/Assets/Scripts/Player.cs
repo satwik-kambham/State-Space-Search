@@ -9,12 +9,14 @@ public class Player : MonoBehaviour
     public Material start;
     public Material goal;
     public int n, m;
+    public static int startIndex;
+    public static int goalIndex;
 
     void Start()
     {
         System.Random random = new System.Random();
-        int startIndex = random.Next(m);
-        int goalIndex = random.Next(m);
+        startIndex = random.Next(m);
+        goalIndex = random.Next(m);
 
         guide.transform.localScale = new Vector3(10 / m, 1, 10 / n);
 

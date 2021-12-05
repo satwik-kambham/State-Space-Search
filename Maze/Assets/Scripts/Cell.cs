@@ -8,6 +8,7 @@ namespace Generation
         public Cell[] neighbors; // Neighboring cells
         public GameObject[] walls;
         public bool visited;
+        public Cell parent;
         public Cell(int _i, int _j)
         {
             neighbors = new Cell[4];
@@ -15,6 +16,7 @@ namespace Generation
             i = _i;
             j = _j;
             visited = false;
+            parent = null;
         }
     }
 }

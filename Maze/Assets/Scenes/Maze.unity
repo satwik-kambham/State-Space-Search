@@ -266,6 +266,7 @@ MonoBehaviour:
   wall: {fileID: 6611076041190843084, guid: 7df15898e43e42647954133d96e15d3f, type: 3}
   n: 9
   m: 9
+  guide: {fileID: 926716383333469341, guid: 3d9faa54cebc1b74bb6300c7430ef16c, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

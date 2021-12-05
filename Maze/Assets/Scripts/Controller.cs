@@ -9,12 +9,14 @@ public class Controller : MonoBehaviour
     public GameObject wall; // Prefab of wall
     public int n; // Number of rows
     public int m; // Number of columns
-    private float cellWidth = 100f / n;
-    private float cellHeight = 100f / m;
+    private float cellWidth;
+    private float cellHeight;
 
     void Start()
     {
         maze = new Maze(n, m); // Initializing maze object which store all the cells
+        cellWidth = 100f / n;
+        cellHeight = 100f / m;
         Vector3 location;
         Quaternion rotation;
 
@@ -58,7 +60,7 @@ public class Controller : MonoBehaviour
     void Update()
     {
         if (Input.anyKeyDown)
-            if (Input.GetKeyDown(KeyCode.D)) solveUsingRandomizedDFS();
+            if (Input.GetKeyDown(KeyCode.G)) solveUsingRandomizedDFS();
     }
 
     void solveUsingRandomizedDFS()

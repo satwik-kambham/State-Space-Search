@@ -61,40 +61,7 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown)
-        {
-            if (Input.GetKeyDown(KeyCode.G)) solveUsingRandomizedDFS();
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                Cell start = maze.cells[Player.startIndex, 0];
-                Cell goal = maze.cells[Player.goalIndex, n - 1];
 
-                BFS bfs = new BFS(start, goal);
-                Cell path = bfs.solve();
-
-                while (path != null)
-                {
-                    // Debug.Log(path.i + " " + path.j + " " + path.j + " " + path.i);
-                    createGuide(path.i, path.j);
-                    path = path.parent;
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                Cell start = maze.cells[Player.startIndex, 0];
-                Cell goal = maze.cells[Player.goalIndex, n - 1];
-
-                DFS dfs = new DFS(start, goal);
-                Cell path = dfs.solve();
-
-                while (path != null)
-                {
-                    // Debug.Log(path.i + " " + path.j + " " + path.j + " " + path.i);
-                    createGuide(path.i, path.j);
-                    path = path.parent;
-                }
-            }
-        }
     }
 
     void createGuide(int i, int j)
@@ -104,10 +71,40 @@ public class Controller : MonoBehaviour
         Instantiate(guide);
     }
 
-    void solveUsingRandomizedDFS()
+    public void solveUsingRandomizedDFS()
     {
         RDFS rdfs = new RDFS(this);
         rdfs.generateMaze();
+    }
+
+    public void solveUsingDFS()
+    {
+        Cell start = maze.cells[Player.startIndex, 0];
+        Cell goal = maze.cells[Player.goalIndex, n - 1];
+
+        BFS bfs = new BFS(start, goal);
+        Cell path = bfs.solve();
+
+        while (path != null)
+        {
+            createGuide(path.i, path.j);
+            path = path.parent;
+        }
+    }
+
+    public void solveUsingBFS()
+    {
+        Cell start = maze.cells[Player.startIndex, 0];
+        Cell goal = maze.cells[Player.goalIndex, n - 1];
+
+        DFS dfs = new DFS(start, goal);
+        Cell path = dfs.solve();
+
+        while (path != null)
+        {
+            createGuide(path.i, path.j);
+            path = path.parent;
+        }
     }
 
     // Sets reference to neighbor and destroy walls in between

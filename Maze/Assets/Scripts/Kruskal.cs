@@ -5,8 +5,8 @@ namespace Generation
 {
     public class Kruskal
     {
-        DisjointSet connectedCells;
-        List<Wall> walls;
+        DisjointSet connectedCells; // Disjoint set to ensure that the while 
+        List<Wall> walls; // List of all the walls
         Controller controller;
 
         public Kruskal(Controller controller)
@@ -19,17 +19,18 @@ namespace Generation
         public void generateMaze()
         {
             shuffleWalls(walls);
+         
             foreach (var wall in walls)
             {
                 if (connectedCells.find(getIndex(wall.c1)) != connectedCells.find(getIndex(wall.c2)))
                 {
-                    UnityEngine.Debug.Log("Hello");
                     controller.setNeighbor(getDirection(controller.getNeighbors(wall.c1), wall.c2), wall.c1);
                     connectedCells.union(getIndex(wall.c1), getIndex(wall.c2));
                 }
             }
         }
 
+        // Calculates the index of the cell in the disjoint set
         public int getIndex(Cell c)
         {
             return c.i * controller.n + c.j;
@@ -45,6 +46,7 @@ namespace Generation
             return -1;
         }
 
+        // Shuffles the given list of walls
         public void shuffleWalls(List<Wall> walls)
         {
             Random random = new Random();
@@ -57,6 +59,7 @@ namespace Generation
             }
         }
 
+        // Generates all the walls
         public List<Wall> getWallsList(Cell[,] cells, Controller controller)
         {
             List<Wall> walls = new List<Wall>();

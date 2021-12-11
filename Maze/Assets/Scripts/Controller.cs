@@ -77,7 +77,13 @@ public class Controller : MonoBehaviour
         rdfs.generateMaze();
     }
 
-    public void solveUsingDFS()
+    public void solveUsingRandomizedKruskals()
+    {
+        Kruskal kruskal = new Kruskal(this);
+        kruskal.generateMaze();
+    }
+
+    public void solveUsingBFS()
     {
         Cell start = maze.cells[Player.startIndex, 0];
         Cell goal = maze.cells[Player.goalIndex, n - 1];
@@ -92,7 +98,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void solveUsingBFS()
+    public void solveUsingDFS()
     {
         Cell start = maze.cells[Player.startIndex, 0];
         Cell goal = maze.cells[Player.goalIndex, n - 1];

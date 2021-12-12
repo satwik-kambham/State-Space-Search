@@ -83,6 +83,12 @@ public class Controller : MonoBehaviour
         kruskal.generateMaze();
     }
 
+    public void solveUsingRandomizedPrims()
+    {
+        Prim prim = new Prim(this);
+        prim.generateMaze();
+    }
+
     public void solveUsingBFS()
     {
         Cell start = maze.cells[Player.startIndex, 0];

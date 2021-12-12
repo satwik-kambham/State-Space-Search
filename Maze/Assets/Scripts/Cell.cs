@@ -9,6 +9,7 @@ namespace Generation
         public GameObject[] walls;
         public bool visited;
         public Cell parent;
+        public bool inMaze; // Whether the cell is a part of the maze
         public Cell(int _i, int _j)
         {
             neighbors = new Cell[4];
@@ -17,6 +18,7 @@ namespace Generation
             j = _j;
             visited = false;
             parent = null;
+            inMaze = false;
         }
     }
 }

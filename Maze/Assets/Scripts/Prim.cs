@@ -40,6 +40,8 @@ namespace Generation
 
                 walls.Remove(randomWall);
             }
+
+            controller.wallsDestroyed = 0;
         }
 
         // Find direction of the neighbor wrt to the current cell

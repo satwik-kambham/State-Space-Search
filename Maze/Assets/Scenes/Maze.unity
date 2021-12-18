@@ -425,6 +425,8 @@ MonoBehaviour:
   n: 9
   m: 9
   guide: {fileID: 926716383333469341, guid: 3d9faa54cebc1b74bb6300c7430ef16c, type: 3}
+  wallDestroyRate: 1
+  wallsDestroyed: 0
 --- !u!1 &673587718
 GameObject:
   m_ObjectHideFlags: 0

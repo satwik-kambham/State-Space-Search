@@ -19,7 +19,7 @@ namespace Generation
         public void generateMaze()
         {
             shuffleWalls(walls);
-         
+
             foreach (var wall in walls)
             {
                 if (connectedCells.find(getIndex(wall.c1)) != connectedCells.find(getIndex(wall.c2)))
@@ -28,6 +28,8 @@ namespace Generation
                     connectedCells.union(getIndex(wall.c1), getIndex(wall.c2));
                 }
             }
+
+            controller.wallsDestroyed = 0;
         }
 
         // Calculates the index of the cell in the disjoint set

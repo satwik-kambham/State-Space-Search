@@ -57,6 +57,8 @@ namespace Generation
                     c.setNeighbor(getDirection(completeNeighbors, neighbor), currentCell);
                 }
             }
+
+            c.wallsDestroyed = 0;
         }
 
         // Find direction of the neighbor wrt to the current cell

@@ -13,6 +13,8 @@ public class Controller : MonoBehaviour
     private float cellWidth;
     private float cellHeight;
     public GameObject guide;
+    public float wallDestroyRate;
+    public int wallsDestroyed = 0;
 
     void Start()
     {
@@ -127,7 +129,7 @@ public class Controller : MonoBehaviour
         Cell c2 = neighbors[direction];
 
         c1.neighbors[direction] = c2;
-        Destroy(c1.walls[direction]);
+        GameObject w1 = c1.walls[direction];
         c1.walls[direction] = null;
 
         if (direction > 1)
@@ -136,8 +138,19 @@ public class Controller : MonoBehaviour
             direction += 2;
 
         c2.neighbors[direction] = c1;
-        Destroy(c2.walls[direction]);
+        GameObject w2 = c2.walls[direction];
         c2.walls[direction] = null;
+
+        wallsDestroyed++;
+        StartCoroutine(destroyWalls(w1, w2));
+    }
+
+    public IEnumerator destroyWalls(GameObject w1, GameObject w2)
+    {
+        yield return new WaitForSeconds(wallDestroyRate * wallsDestroyed);
+
+        Destroy(w1);
+        Destroy(w2);
     }
 
     // Get possible neighbors of given cell

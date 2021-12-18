@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour
     public GameObject guide;
     public float wallDestroyRate;
     public int wallsDestroyed = 0;
+    public float pathVisualizationRate;
 
     void Start()
     {
@@ -99,11 +100,7 @@ public class Controller : MonoBehaviour
         BFS bfs = new BFS(start, goal);
         Cell path = bfs.solve();
 
-        while (path != null)
-        {
-            createGuide(path.i, path.j);
-            path = path.parent;
-        }
+        StartCoroutine(generatePathVisualization(path));
     }
 
     public void solveUsingDFS()
@@ -114,10 +111,23 @@ public class Controller : MonoBehaviour
         DFS dfs = new DFS(start, goal);
         Cell path = dfs.solve();
 
-        while (path != null)
-        {
-            createGuide(path.i, path.j);
+        StartCoroutine(generatePathVisualization(path));
+    }
+
+    public IEnumerator generatePathVisualization(Cell path)
+    {
+        Stack<Cell> stack = new Stack<Cell>();
+
+        while(path != null) {
+            stack.Push(path);
             path = path.parent;
+        }
+
+        while (stack.Count != 0)
+        {
+            path = stack.Pop();
+            createGuide(path.i, path.j);
+            yield return new WaitForSeconds(pathVisualizationRate);
         }
     }
 

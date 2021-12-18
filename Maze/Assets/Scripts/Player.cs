@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public GameObject player;
     public Material start;
     public Material goal;
+    public Material guideMaterial;
     public int n, m;
     public static int startIndex;
     public static int goalIndex;
@@ -36,6 +37,8 @@ public class Player : MonoBehaviour
 
         player.transform.position = guide.transform.position;
         player = Instantiate(player);
+
+        guide.GetComponent<Renderer>().material = guideMaterial;
     }
 
     void Update()

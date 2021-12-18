@@ -425,8 +425,9 @@ MonoBehaviour:
   n: 9
   m: 9
   guide: {fileID: 926716383333469341, guid: 3d9faa54cebc1b74bb6300c7430ef16c, type: 3}
-  wallDestroyRate: 1
+  wallDestroyRate: 0.1
   wallsDestroyed: 0
+  pathVisualizationRate: 0.3
 --- !u!1 &673587718
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +766,7 @@ MonoBehaviour:
   player: {fileID: 19245999070254480, guid: a62009f7fecff864682e1106b59febe2, type: 3}
   start: {fileID: 2100000, guid: bbed64fdfdce0b54e8dde8c798e70172, type: 2}
   goal: {fileID: 2100000, guid: 897bf0742d6a2dc4bbba5670ceb6c416, type: 2}
+  guideMaterial: {fileID: 2100000, guid: 410bdb425f20a5646865961226a405df, type: 2}
   n: 9
   m: 9
 --- !u!4 &953825586

@@ -64,7 +64,10 @@ public class Controller : MonoBehaviour
 
     void Update()
     {
-
+        if (Input.anyKeyDown && Input.GetKeyDown(KeyCode.R))
+        {
+            removeRandomWall();
+        }
     }
 
     void createGuide(int i, int j)
@@ -118,7 +121,8 @@ public class Controller : MonoBehaviour
     {
         Stack<Cell> stack = new Stack<Cell>();
 
-        while(path != null) {
+        while (path != null)
+        {
             stack.Push(path);
             path = path.parent;
         }
@@ -131,12 +135,19 @@ public class Controller : MonoBehaviour
         }
     }
 
+    public void removeRandomWall()
+    {
+        System.Random random = new System.Random();
+        setNeighbor(random.Next(4), maze.cells[random.Next(n), random.Next(m)]);
+    }
+
     // Sets reference to neighbor and destroy walls in between
     // top - 0, left - 1, down - 2, right - 3
     public void setNeighbor(int direction, Cell c1)
     {
         Cell[] neighbors = getNeighbors(c1);
         Cell c2 = neighbors[direction];
+        if (c2 == null) return;
 
         c1.neighbors[direction] = c2;
         GameObject w1 = c1.walls[direction];

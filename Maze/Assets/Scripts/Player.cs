@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
         startIndex = random.Next(m);
         goalIndex = random.Next(m);
 
-        guide.transform.localScale = new Vector3(10 / m, 1, 10 / n);
+        guide.transform.localScale = new Vector3(10f / m, 1, 10f / n);
 
         guide.transform.position = new Vector3((goalIndex * 100) / n - 50 + guide.transform.localScale.z * 5, 1, (((n - 1) * 100) / n + guide.transform.localScale.z * 5 - 50));
 

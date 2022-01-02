@@ -70,7 +70,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    void createGuide(int i, int j)
+    public void createGuide(int i, int j)
     {
         guide.transform.position = new Vector3((i * 100) / n - 50 + guide.transform.localScale.z * 5, 1, (j * 100) / n - 50 + guide.transform.localScale.z * 5);
 
@@ -117,6 +117,28 @@ public class Controller : MonoBehaviour
         StartCoroutine(generatePathVisualization(path));
     }
 
+    public void solveUsingGreedy()
+    {
+        Cell start = maze.cells[Player.startIndex, 0];
+        Cell goal = maze.cells[Player.goalIndex, n - 1];
+
+        Greedy greedy = new Greedy(start, goal);
+        Cell path = greedy.solve();
+
+        StartCoroutine(generatePathVisualization(path));
+    }
+
+    public void solveUsingAStar()
+    {
+        Cell start = maze.cells[Player.startIndex, 0];
+        Cell goal = maze.cells[Player.goalIndex, n - 1];
+
+        AStar aStar = new AStar(start, goal);
+        Cell path = aStar.solve();
+
+        StartCoroutine(generatePathVisualization(path));
+    }
+
     public IEnumerator generatePathVisualization(Cell path)
     {
         Stack<Cell> stack = new Stack<Cell>();
@@ -126,6 +148,8 @@ public class Controller : MonoBehaviour
             stack.Push(path);
             path = path.parent;
         }
+
+        Debug.Log(stack.Count);
 
         while (stack.Count != 0)
         {

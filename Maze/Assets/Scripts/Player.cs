@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
         Instantiate(guide);
 
-        guide.transform.localScale = new Vector3(10 / m, 1, 10 / n);
+        guide.transform.localScale = new Vector3(10f / m, 1, 10f / n);
 
         guide.transform.position = new Vector3((startIndex * 100) / n - 50 + guide.transform.localScale.z * 5, 1, (guide.transform.localScale.z * 5 - 50));
 
